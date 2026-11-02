@@ -4,7 +4,7 @@ import 'dart:math';
 /// Service Waterpass Digital (Bubble Spirit Level) Menggunakan Sensor Gravitasi / Akselerometer Handphone
 class BubbleLevelService {
   static final BubbleLevelService _instance = BubbleLevelService._internal();
-  factory _instance() => _instance;
+  factory BubbleLevelService() => _instance;
   BubbleLevelService._internal();
 
   double _pitch = 0.0; // Derajat kemiringan depan-belakang (-90 s/d +90)
@@ -49,4 +49,3 @@ class BubbleLevelService {
     });
   }
 }
-
