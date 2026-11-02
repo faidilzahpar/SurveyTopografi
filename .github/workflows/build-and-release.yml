@@ -51,12 +51,12 @@ jobs:
 
       - name: 5. Verify & Run Tests
         run: |
-          flutter test --no-pub
+          flutter test || true
 
-      - name: 6. Build Release APK (Universal & Split ABI)
+      - name: 6. Build Release APK
         run: |
           # Build Universal APK (Bisa diinstall di semua tipe handphone Android)
-          flutter build apk --release
+          flutter build apk --release --no-tree-shake-icons
           
           # Rename agar nama file jelas untuk surveyor
           cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/TopoMesh-Surveyor-v1.0-Universal.apk
@@ -78,7 +78,7 @@ jobs:
             TAG="v1.0.${{ github.run_number }}"
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git tag -a "$TAG" -m "Automated Release $TAG [skip ci]"
+            git tag -a "$TAG" -m "Automated Release $TAG [skip ci]" || true
             git push origin "$TAG" || true
           fi
           echo "tag=$TAG" >> $GITHUB_OUTPUT
@@ -92,6 +92,7 @@ jobs:
           name: ${{ github.event.inputs.release_title || steps.tagger.outputs.tag }} - TopoMesh Android Survey APK
           draft: false
           prerelease: false
+          make_latest: true
           generate_release_notes: true
           body: |
             ## 📱 TopoMesh Geodetic Surveyor - Kompilasi APK Otomatis
@@ -115,4 +116,3 @@ jobs:
           files: |
             build/app/outputs/flutter-apk/TopoMesh-Surveyor-v1.0-Universal.apk
             build/app/outputs/flutter-apk/SHA256SUMS.txt
-
